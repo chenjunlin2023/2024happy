@@ -37,7 +37,7 @@
       playerZ = -25;
       playerX = playerY = playerVX = playerVY = playerVZ = pitch = yaw = pitchV = yawV = 0;
       scale = 600;
-      seedTimer = 0;
+      seedTimer = 2;
       seedInterval = 5, seedLife = 100;
       gravity = .02;
       seeds = new Array();
@@ -332,7 +332,7 @@
         window.oRequestAnimationFrame ||
         window.msRequestAnimationFrame ||
         function (callback) {
-          window.setTimeout(callback, 1000 / 60);
+          window.setTimeout(callback, 10000 / 60);
         };
 
       return {
