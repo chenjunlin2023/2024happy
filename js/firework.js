@@ -1,14 +1,4 @@
-/*
 
-  主要是处理烟花的效果
-  可以给背景加一个样式
-  body {
-    background-color: #000000;
-    margin: 0px;
-    overflow: hidden;
-  }
-
-*/
 
 var SCREEN_WIDTH = window.innerWidth,
   SCREEN_HEIGHT = window.innerHeight,
@@ -17,7 +7,6 @@ var SCREEN_WIDTH = window.innerWidth,
     y: 300
   },
 
-  // create canvas
   canvas = document.createElement('canvas'),
   context = canvas.getContext('2d'),
   particles = [],
@@ -25,7 +14,6 @@ var SCREEN_WIDTH = window.innerWidth,
   MAX_PARTICLES = 400,
   colorCode = 0;
 
-// init
 $(document).ready(function () {
   document.body.appendChild(canvas);
   canvas.width = SCREEN_WIDTH;
@@ -34,7 +22,6 @@ $(document).ready(function () {
   setInterval(loopfun, 1000 / 50);
 });
 
-// update mouse position
 $(document).mousemove(function (e) {
   e.preventDefault();
   mousePos = {
@@ -43,7 +30,6 @@ $(document).mousemove(function (e) {
   };
 });
 
-// launch more rockets!!!
 $(document).mousedown(function (e) {
   for (var i = 0; i < 5; i++) {
     launchFrom(Math.random() * SCREEN_WIDTH * 2 / 3 + SCREEN_WIDTH / 6);
@@ -68,7 +54,6 @@ function launchFrom(x) {
 }
 
 function loopfun() {
-  // update screen size
   if (SCREEN_WIDTH != window.innerWidth) {
     canvas.width = SCREEN_WIDTH = window.innerWidth;
   }
@@ -76,29 +61,19 @@ function loopfun() {
     canvas.height = SCREEN_HEIGHT = window.innerHeight;
   }
 
-  // clear canvas
   context.fillStyle = "rgba(0, 0, 0, 0.05)";
   context.fillRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
 
   var existingRockets = [];
 
   for (var i = 0; i < rockets.length; i++) {
-    // update and render
     rockets[i].update();
     rockets[i].render(context);
 
-    // calculate distance with Pythagoras
     var distance = Math.sqrt(Math.pow(mousePos.x - rockets[i].pos.x, 2) + Math.pow(mousePos.y - rockets[i].pos.y, 2));
 
-    // random chance of 1% if rockets is above the middle
     var randomChance = rockets[i].pos.y < (SCREEN_HEIGHT * 2 / 3) ? (Math.random() * 100 <= 1) : false;
 
-    /* Explosion rules
-    - 80% of screen
-    - going down
-    - close to the mouse
-    - 1% chance of random explosion
-    */
     if (rockets[i].pos.y < SCREEN_HEIGHT / 5 || rockets[i].vel.y >= 0 || distance < 50 || randomChance) {
       rockets[i].explode();
     } else {
@@ -113,14 +88,12 @@ function loopfun() {
   for (var i = 0; i < particles.length; i++) {
     particles[i].update();
 
-    // render and save particles that can be rendered
     if (particles[i].exists()) {
       particles[i].render(context);
       existingParticles.push(particles[i]);
     }
   }
 
-  // update array with existing particles - old particles should be garbage collected
   particles = existingParticles;
 
   while (particles.length > MAX_PARTICLES) {
@@ -151,21 +124,16 @@ function Particle(pos) {
 }
 
 Particle.prototype.update = function () {
-  // apply resistance
   this.vel.x *= this.resistance;
   this.vel.y *= this.resistance;
 
-  // gravity down
   this.vel.y += this.gravity;
 
-  // update position based on speed
   this.pos.x += this.vel.x;
   this.pos.y += this.vel.y;
 
-  // shrink
   this.size *= this.shrink;
 
-  // fade out
   this.alpha -= this.fade;
 };
 
@@ -221,7 +189,6 @@ Rocket.prototype.explode = function () {
     var particle = new Particle(this.pos);
     var angle = Math.random() * Math.PI * 2;
 
-    // emulate 3D effect by using cosine and put more particles in the middle
     var speed = Math.cos(Math.random() * Math.PI / 2) * 15;
 
     particle.vel.x = Math.cos(angle) * speed;

@@ -1,10 +1,4 @@
 
-/*
-
-  author:sakura
-
-*/
-
 
 var S = {
   init: function () {
@@ -85,7 +79,7 @@ S.Drawing = (function () {
 S.UI = (function () {
   var canvas = document.querySelector('.canvas'),
       interval,
-      isTouch = false, //('ontouchstart' in window || navigator.msMaxTouchPoints),
+      isTouch = false, 
       currentAction,
       resizeTimer,
       time,
@@ -139,10 +133,7 @@ S.UI = (function () {
         value,
         current;
 
-    // overlay.classList.remove('overlay--visible');
     sequence = typeof(value) === 'object' ? value : sequence.concat(value.split('|'));
-    // input.value = '';
-    // checkInputWidth();
 
     timedAction(function (index) {
       current = sequence.shift();
@@ -227,51 +218,7 @@ S.UI = (function () {
       }
     });
 
-    // input.addEventListener('input', checkInputWidth);
-    // input.addEventListener('change', checkInputWidth);
-    // input.addEventListener('focus', checkInputWidth);
-
-    // help.addEventListener('click', function (e) {
-    //   overlay.classList.toggle('overlay--visible');
-    //   overlay.classList.contains('overlay--visible') && reset(true);
-    // });
-
-    // commands.addEventListener('click', function (e) {
-    //   var el,
-    //       info,
-    //       demo,
-    //       tab,
-    //       active,
-    //       url;
-    //
-    //   if (e.target.classList.contains('commands-item')) {
-    //     el = e.target;
-    //   } else {
-    //     el = e.target.parentNode.classList.contains('commands-item') ? e.target.parentNode : e.target.parentNode.parentNode;
-    //   }
-    //
-    //   info = el && el.querySelector('.commands-item-info');
-    //   demo = el && info.getAttribute('data-demo');
-    //   url = el && info.getAttribute('data-url');
-    //
-    //   if (info) {
-    //     overlay.classList.remove('overlay--visible');
-    //
-    //     if (demo) {
-    //       input.value = demo;
-    //
-    //       if (isTouch) {
-    //         reset();
-    //         performAction(input.value);
-    //       } else {
-    //         input.focus();
-    //       }
-    //     } else if (url) {
-    //       //window.location = url;
-    //     }
-    //   }
-    // });
-
+    
     canvas.addEventListener('click', function (e) {
       overlay.classList.remove('overlay--visible');
     });
@@ -279,11 +226,9 @@ S.UI = (function () {
 
   function init() {
     bindEvents();
-    // input.focus();
     isTouch && document.body.classList.add('touch');
   }
 
-  // Init
   init();
 
   return {
@@ -330,7 +275,6 @@ S.UI.Tabs = (function () {
     bindEvents();
   }
 
-  // Init
   init();
 }());
 
@@ -533,7 +477,6 @@ S.ShapeBuilder = (function () {
     window.addEventListener('resize', fit);
   }
 
-  // Init
   init();
 
   return {
@@ -690,7 +633,7 @@ S.Shape = (function () {
           dots[i].move(new S.Point({
             x: Math.random() * a.w,
             y: Math.random() * a.h,
-            a: 0.3, //.4
+            a: 0.3, 
             z: Math.random() * 4,
             h: 0
           }));
